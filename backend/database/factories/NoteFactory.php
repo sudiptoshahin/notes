@@ -20,7 +20,8 @@ class NoteFactory extends Factory
         return [
             'title' => $this->faker->words(rand(4, 10), true),
             'text' => $this->faker->sentences(rand(2, 5), true),
-            'user_id' => User::factory()
+            'user_id' => User::factory(),
+            'created_at' => $this->faker->dateTimeBetween('-1 week', '+1 week')
         ];
     }
 }

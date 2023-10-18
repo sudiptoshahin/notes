@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,14 @@ class StoreNoteRequest extends FormRequest
         return [
             "title" => ['required', 'max:255'],
             "text" => ['required', 'max:255'],
-            "user_id" => "required"
+            "userId" => "required"
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => $this->userId
+        ]);
     }
 }

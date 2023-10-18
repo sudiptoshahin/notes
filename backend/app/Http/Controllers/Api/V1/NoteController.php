@@ -2,21 +2,29 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Requests\StoreNoteRequest;
-use App\Http\Requests\UpdateNoteRequest;
+use App\Http\Requests\V1\StoreNoteRequest;
+use App\Http\Requests\V1\UpdateNoteRequest;
 use App\Models\Note;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\V1\NoteResource;
-use App\Http\Resources\Api\V1\NoteCollection;
+use App\Http\Resources\V1\NoteResource;
+use App\Http\Resources\V1\NoteCollection;
+use App\Utilities\Filters\V1\NoteFilter;
+use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Shows all notes with filterd notes
+     * with its associated users
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new NoteCollection(Note::all());
+        $filter = new NoteFilter();
+        $filterParams = $filter->transform($request);
+
+        $notes = Note::where($filterParams);
+
+        return new NoteCollection($notes->paginate()->appends($request->query()));
     }
 
     /**
@@ -56,7 +64,15 @@ class NoteController extends Controller
      */
     public function update(UpdateNoteRequest $request, Note $note)
     {
-        //
+        $isNoteUpdated = $note->update($request->all());
+
+        if($isNoteUpdated == true) {
+            return response()->json([
+                'status' => 'success',
+                'code' => 200,
+                'message' => $note->title. ' is updated successfully!'
+            ]);
+        }
     }
 
     /**
