@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\NoteController;
+use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,6 @@ Route::group(['prefix'=> 'v1',
 'namespace' => 'App\Http\Controllers\Api\V1'], function() {
 
     Route::apiResource('notes', NoteController::class);
-    
+    Route::apiResource('users', UserController::class);
 
 });
