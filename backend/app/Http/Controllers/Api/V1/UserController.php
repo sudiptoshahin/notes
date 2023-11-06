@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\SingleUserResource;
+use App\Http\Resources\V1\UserCollection;
+use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -12,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        
+        # show user with its all notes
+        return new UserCollection(User::all());
     }
 
     /**
@@ -34,9 +39,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return new SingleUserResource($user);
     }
 
     /**

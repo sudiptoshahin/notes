@@ -24,6 +24,12 @@ class NoteController extends Controller
 
         $notes = Note::where($filterParams);
 
+        $includeUser = $request->query('includeUser');
+
+        if($includeUser) {
+            $notes = $notes->with('user');
+        }
+
         return new NoteCollection($notes->paginate()->appends($request->query()));
     }
 

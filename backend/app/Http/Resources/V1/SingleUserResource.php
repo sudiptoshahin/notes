@@ -4,8 +4,9 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\V1\NoteProfileCollection;
 
-class UserResource extends JsonResource
+class SingleUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +19,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'profilePicture' => $this->profile_picture,
-            'createdAt' => $this->created_at
+            'notes' => new NoteProfileCollection($this->notes)
         ];
     }
 }
